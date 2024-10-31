@@ -4,6 +4,7 @@ services:
     volumes:
       - ./www:/var/www/html
       - ./src:/var/www/src
+      - ./templates:/var/www/templates
     ports:
       - "8080:8080"  
     command: php -S 0.0.0.0:8080 -t /var/www/html
