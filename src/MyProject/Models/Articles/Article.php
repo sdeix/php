@@ -13,7 +13,7 @@ class Article extends ActiveRecordEntity
     /** @var string */
     protected $text;
 
-    /** @var string */
+    /** @var int */
     protected $authorId;
 
     /** @var string */
@@ -35,15 +35,32 @@ class Article extends ActiveRecordEntity
         return $this->text;
     }
 
-    protected static function getTableName(): string
-    {
-        return 'articles';
-    }
     /**
      * @return User
      */
     public function getAuthor(): User
     {
         return User::getById($this->authorId);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $text
+     */
+    public function setText(string $text): void
+    {
+        $this->text = $text;
+    }
+
+    protected static function getTableName(): string
+    {
+        return 'articles';
     }
 }
