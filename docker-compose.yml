@@ -8,3 +8,19 @@ services:
     ports:
       - "8080:8080"  
     command: php -S 0.0.0.0:8080 -t /var/www/html
+  mysql: 
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=my_project
+      - MYSQL_USER=qwe
+      - MYSQL_PASSWORD=qwe
+      - MYSQL_ROOT_PASSWORD=qwe
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8090:80
+    environment:
+      - PMA_ARBITRARY=1 
