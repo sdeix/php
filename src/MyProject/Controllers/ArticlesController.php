@@ -2,6 +2,7 @@
 
 namespace MyProject\Controllers;
 
+use MyProject\Exceptions\NotFoundException;
 use MyProject\Models\Articles\Article;
 use MyProject\Models\Users\User;
 use MyProject\View\View;
@@ -16,13 +17,12 @@ class ArticlesController
         $this->view = new View(__DIR__ . '/../../../templates');
     }
 
-    public function view(int $articleId): void
+    public function view(int $articleId)
     {
         $article = Article::getById($articleId);
 
         if ($article === null) {
-            $this->view->renderHtml('errors/404.php', [], 404);
-            return;
+            throw new NotFoundException();
         }
 
         $this->view->renderHtml('articles/view.php', [
@@ -30,14 +30,12 @@ class ArticlesController
         ]);
     }
 
-    public function edit(int $articleId): void
+    public function edit(int $articleId)
     {
-        /** @var Article $article */
         $article = Article::getById($articleId);
 
         if ($article === null) {
-            $this->view->renderHtml('errors/404.php', [], 404);
-            return;
+            throw new NotFoundException();
         }
 
         $article->setName('Новое название статьи');
@@ -58,28 +56,5 @@ class ArticlesController
         $article->save();
 
         var_dump($article);
-        $this->refresh();
-    }
-
-    public function refresh(): void
-    {
-        $objFromDb = static::getById($this->id);
-
-        $properties = get_object_vars($objFromDb);
-
-        foreach ($properties as $key=>$value) {
-            $this->$key = $value;
-        }
-    }
-    public function delete(int $articleId): void
-    {
-        $article = Article::getById($articleId);
-
-        if($article){
-            $article->delete();
-            echo "<h1>Статья удалена</h1>";
-        }else {
-            echo "<h1>СТатьи не существует</h1>";
-        }
     }
 }
