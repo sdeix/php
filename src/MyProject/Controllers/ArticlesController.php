@@ -71,4 +71,15 @@ class ArticlesController
             $this->$key = $value;
         }
     }
+    public function delete(int $articleId): void
+    {
+        $article = Article::getById($articleId);
+
+        if($article){
+            $article->delete();
+            echo "<h1>Статья удалена</h1>";
+        }else {
+            echo "<h1>СТатьи не существует</h1>";
+        }
+    }
 }
